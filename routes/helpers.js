@@ -43,14 +43,12 @@ const findIssues = async (project) => {
 const isValidInput = (input) => {
 	const required_fields = ['issue_title', 'issue_text', 'created_by'];
 	for (let field of required_fields) {
-		console.log('field being checked', field);
-		console.log('input[field] returns', input[field]);
-		console.log('is valid', input[field] && input[field] !=='');
 		if (input[field] && input[field] !== '') {
-			return true;
+			continue;
 		} else {
 			return false;
 		}
 	}
+	return true;
 }
 module.exports = { findIssues, deleteIssue, updateIssue, createIssue, isValidInput };

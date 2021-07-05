@@ -22,9 +22,7 @@ const Issue = mongoose.model('Issue', issueSchema);
 
 const createIssue = async (data) => {
   	const newIssue = new Issue(data);
-  	console.log('New Issue created but not saved: ', newIssue);
 	const saveResult = await newIssue.save();
-	console.log('New Issue saved, returned as : ', saveResult);
   return saveResult;
 };
 

@@ -53,4 +53,16 @@ const isValidInput = (input) => {
 	}
 	return true;
 }
-module.exports = { findIssues, deleteIssue, updateIssue, createIssue, isValidInput };
+
+const fillMissingFormData = (input) => {
+	// todo: isolate as const and create scheme from this
+	const string_fields = ['issue_title', 'issue_text', 'created_on', 'updated_on', 'created_by', 'assigned_to', 'status_text', 'project_name'];
+	for (let field of string_fields) {
+		if (!input[field]) {
+			input[field] = '';
+		};
+		continue;
+	};
+	return input;
+}
+module.exports = { fillMissingFormData, findIssues, deleteIssue, updateIssue, createIssue, isValidInput };

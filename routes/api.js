@@ -12,13 +12,14 @@ module.exports = function (app) {
     .post(async function (req, res){
       let project_name = req.params.project;
       let issue_data = req.body;
+	    console.log('Request body coming int: ', issue_data);
 	    if (helpers.isValidInput(issue_data)) {
 		   	const now = new Date().toISOString();
        		 	const result = await helpers.createIssue({...issue_data, project_name: project_name, open: true, created_on: now, updated_on: now});
-        		console.log('result being returned from creating a new issue:', result); 
-        		res.json(result);
+		    console.log('Request body going out: ', result);
+		    	res.json(result);
         	} else { 
-	    		res.json('error: required field(s) missing');
+	    		res.json({error: 'required field(s) missing'});
     		}
     })
     .put(function (req, res){

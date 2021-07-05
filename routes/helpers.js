@@ -35,8 +35,8 @@ const updateIssue = (data) => {
   // return error {"error":"could not update","_id":"60ce06ad701c6d1c2f48a413"} if cant update
 };
 
-const findIssues = async (project) => {
-  const issues = await Issue.find({project_name: project}).exec(); 
+const findIssues = async (filters) => {
+  const issues = await Issue.find(filters).exec(); 
   return issues;
 };
 

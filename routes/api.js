@@ -6,7 +6,10 @@ module.exports = function (app) {
   app.route('/api/issues/:project')
     .get(async function (req, res){
       let project_name = req.params.project;
-      const issuesFound = await helpers.findIssues(project_name);
+	    console.log('req params', req.params);
+	    console.log('req query', req.query.test);
+	    console.log('req ', req);
+	    const issuesFound = await helpers.findIssues({ project_name: project_name, ...req.query});
       res.send(issuesFound);
     })
     .post(async function (req, res){

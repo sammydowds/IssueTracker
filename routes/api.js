@@ -6,9 +6,6 @@ module.exports = function (app) {
   app.route('/api/issues/:project')
     .get(async function (req, res){
       let project_name = req.params.project;
-	    console.log('req params', req.params);
-	    console.log('req query', req.query.test);
-	    console.log('req ', req);
 	    const issuesFound = await helpers.findIssues({ project_name: project_name, ...req.query});
       res.send(issuesFound);
     })
@@ -24,10 +21,25 @@ module.exports = function (app) {
 	    		res.json({error: 'required field(s) missing'});
     		}
     })
-    .put(function (req, res){
+    .put(async function (req, res){
       let project_name = req.params.project;
-      // find and update helper 
-    })
+		if (req.body) {
+			if (req.body?._id) {
+		    		const issue_id = req.body._id;
+	    			const updatedIssue = await helpers.updateIssue(issue_id, req.body);
+		    		if (updatedIssue) {
+			    		res.json({result: 'successfully updated', _id: issue_id});
+		    		} else {
+		    			res.json({error: 'could not update', _id: issue_id});
+		    		}
+	    		}
+			else {
+		     		res.json({error: 'missing _id'});
+	    		}
+		} else {
+			res.json({error: 'no update field(s) sent'});
+		}
+    }) 
     .delete(function (req, res){
       let project_name = req.params.project;
       // use helper to delete

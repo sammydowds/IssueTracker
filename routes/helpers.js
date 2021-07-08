@@ -30,9 +30,10 @@ const deleteIssue = (data) => {
   // check if it exists
   // delete if it does
 };
-const updateIssue = (data) => {
-  // find and update issue
-  // return error {"error":"could not update","_id":"60ce06ad701c6d1c2f48a413"} if cant update
+const updateIssue = async (id, data) => {
+	const updatedIssue = await Issue.findByIdAndUpdate(id, data);
+	console.log('findByIdAndUpdate returned', updatedIssue);
+	return updatedIssue;
 };
 
 const findIssues = async (filters) => {

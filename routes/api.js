@@ -23,8 +23,9 @@ module.exports = function (app) {
     })
     .put(async function (req, res){
       let project_name = req.params.project;
+	    console.log('request body here: ', req.body);
 		if (req.body) {
-			if (req.body?._id) {
+			if (req.body._id) {
 		    		const issue_id = req.body._id;
 	    			const updatedIssue = await helpers.updateIssue(issue_id, req.body);
 		    		if (updatedIssue) {

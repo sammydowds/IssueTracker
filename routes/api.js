@@ -27,7 +27,8 @@ module.exports = function (app) {
 		if (req.body) {
 			if (req.body._id) {
 		    		const issue_id = req.body._id;
-	    			const updatedIssue = await helpers.updateIssue(issue_id, req.body);
+				const now = new Date().toISOString();
+	    			const updatedIssue = await helpers.updateIssue(issue_id, { ...req.body, updated_on: now } );
 		    		if (updatedIssue) {
 			    		res.json({result: 'successfully updated', _id: issue_id});
 		    		} else {

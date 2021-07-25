@@ -28,7 +28,7 @@ module.exports = function (app) {
 		if (hasBodyAndId) {
 			const issue_id = req.body._id;
 			const issue_payload = delete req.body._id; 
-			if (helpers.isInputEmptyStrings(issue_payload)) {
+			if (!helpers.isInputEmptyStrings(issue_payload)) {
 				const now = new Date().toISOString();
 				const updatedIssue = await helpers.updateIssue(issue_id, { ...req.body, updated_on: now } );
 				if (updatedIssue) {
@@ -37,7 +37,7 @@ module.exports = function (app) {
 					res.json({error: 'could not update', _id: issue_id});
 				}
 			} else {
-				res.json({ error: 'no updated field(s) sent', _id: issue_id});	
+				res.json({ error: 'no update field(s) sent', _id: issue_id});	
 			}
 		} else {
 			res.json({error: 'missing _id'});

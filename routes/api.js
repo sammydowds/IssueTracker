@@ -21,25 +21,27 @@ module.exports = function (app) {
 	    		res.json({error: 'required field(s) missing'});
     		}
     })
+	// NOTE: probably could add a middleware to catch when we should res alternate error msgs
     .put(async function (req, res){
       let project_name = req.params.project;
-	    console.log('request body here: ', req.body);
-		if (req.body) {
-			if (req.body._id) {
-		    		const issue_id = req.body._id;
+		    const hasBodyAndId = !!req.body && !!req.body._id;
+		    const hasUpdatedFields = hasBodyAndId && req.body.length > 1;
+		    console.log('request body here: ', req.body);
+		if (hasBodyAndId) {
+			const issue_id = req.body._id;
+			if (hasUpdatedFields) {
 				const now = new Date().toISOString();
-	    			const updatedIssue = await helpers.updateIssue(issue_id, { ...req.body, updated_on: now } );
-		    		if (updatedIssue) {
-			    		res.json({result: 'successfully updated', _id: issue_id});
-		    		} else {
-		    			res.json({error: 'could not update', _id: issue_id});
-		    		}
-	    		}
-			else {
-		     		res.json({error: 'missing _id'});
-	    		}
+				const updatedIssue = await helpers.updateIssue(issue_id, { ...req.body, updated_on: now } );
+				if (updatedIssue) {
+					res.json({result: 'successfully updated', _id: issue_id});
+				} else {
+					res.json({error: 'could not update', _id: issue_id});
+				}
+			} else {
+				res.json({ error: 'no updated field(s) sent', _id: issue_id});	
+			}
 		} else {
-			res.json({error: 'no update field(s) sent'});
+			res.json({error: 'missing _id'});
 		}
     }) 
     .delete(function (req, res){

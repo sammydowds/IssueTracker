@@ -53,6 +53,18 @@ const isValidInput = (input) => {
 	return true;
 }
 
+const isInputEmptyStrings = (input) => {
+	console.log('input passed to empty string test', input); 
+	for (let value in input) {
+		if (value === '') {
+			continue;
+		} else {
+			return false;
+		}
+	}
+	return true;
+}
+
 const fillMissingFormData = (input) => {
 	// todo: isolate as const and create scheme from this
 	const string_fields = ['issue_title', 'issue_text', 'created_on', 'updated_on', 'created_by', 'assigned_to', 'status_text', 'project_name'];
@@ -64,4 +76,4 @@ const fillMissingFormData = (input) => {
 	};
 	return input;
 }
-module.exports = { fillMissingFormData, findIssues, deleteIssue, updateIssue, createIssue, isValidInput };
+module.exports = { isInputEmptyStrings, fillMissingFormData, findIssues, deleteIssue, updateIssue, createIssue, isValidInput };
